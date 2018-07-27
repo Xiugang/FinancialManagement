@@ -1,13 +1,14 @@
 package com.dsef.gjp.gjpdemo;
 
-import com.dsef.gjp.gjpdemo.view.mainview;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-@SpringBootApplication
+
+@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class GjpdemoApplication {
-
     public static void main(String[] args) {
-        new mainview().run();
+//        new mainview().run();
+        SpringApplication.run(GjpdemoApplication.class,args);
     }
 }

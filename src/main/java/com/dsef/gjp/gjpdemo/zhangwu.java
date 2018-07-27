@@ -1,4 +1,4 @@
-package com.dsef.gjp.gjpdemo.domain;
+package com.dsef.gjp.gjpdemo;
 
 /**
  * @author D.S.E.F

@@ -1,9 +1,8 @@
-package com.dsef.gjp.gjpdemo.tools;
+package com.dsef.gjp.gjpdemo;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
+
 
 /**
  * @author D.S.E.F

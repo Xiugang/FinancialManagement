@@ -1,9 +1,9 @@
-package com.dsef.gjp.gjpdemo.dao;
+package com.dsef.gjp.gjpdemo;
 
-import com.dsef.gjp.gjpdemo.domain.zhangwu;
-import com.dsef.gjp.gjpdemo.tools.jdbcutils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.springframework.stereotype.Repository;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -11,21 +11,21 @@ import java.util.List;
  * @author D.S.E.F
  * @date 2018/7/16
  */
-public class zhangwudao {
+@Repository
+public class ZhangWuDao {
     private QueryRunner queryRunner = new QueryRunner(jdbcutils.getDataSource());
     public List<zhangwu> selectAll(){
         try {
             String sql = "SELECT * FROM zhangwu";
-            System.out.println("1");
             List<zhangwu> list = queryRunner.query(sql, new BeanListHandler<>(zhangwu.class));
             System.out.println(list);
-            System.out.println("2");
             return list;
         }catch (SQLException ex){
             System.out.println(ex);
             throw new RuntimeException("查询所有账务失败");
         }
     }
+
     public List<zhangwu> select(String startDate,String endDate){
         try {
 
@@ -37,6 +37,7 @@ public class zhangwudao {
             throw new RuntimeException("条件查询失败");
         }
     }
+
     public void addZhangWu(zhangwu zw){
         try {
             String sql = "INSERT INTO zhangwu (flname,money,zhanghu,createtime,description) VALUES(?,?,?,?,?)";
@@ -47,6 +48,7 @@ public class zhangwudao {
             throw new RuntimeException("账务添加失败");
         }
     }
+
     public void editZhangWu(zhangwu zw){
         try {
             String sql = "UPDATE zhangwu SET flname=?,money=?,zhanghu=?,createtime=?,description=? WHERE zwid=?";
@@ -60,7 +62,7 @@ public class zhangwudao {
 
     public void deleteZhangWu(int zwid){
         try {
-            String sql = "DELETE FROM gjp_zhangwu WHERE zwid=?";
+            String sql = "DELETE FROM zhangwu WHERE zwid=?";
             queryRunner.update(sql,zwid);
         }catch (SQLException ex){
             System.out.println(ex);
@@ -68,3 +70,5 @@ public class zhangwudao {
         }
     }
 }
+
+
