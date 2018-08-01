@@ -17,9 +17,22 @@ public class ZhangWuService {
     public List<zhangwu> selectAll(){
         return zhangWuDao.selectAll();
     }
-    public List<zhangwu> select(String startDate,String endDate){
-        return zhangWuDao.select(startDate,endDate);
+    public List<zhangwu> select1(String startDate,String endDate){
+        return zhangWuDao.select1(startDate,endDate);
     }
+
+    public List<zhangwu> select2(String flname){
+        return  zhangWuDao.select2(flname);
+    }
+
+    public List<zhangwu> select3(String zhanghu){
+        return zhangWuDao.selec3(zhanghu);
+    }
+
+    public List<zhangwu> select4(double maxmoney,double minmoney){
+        return zhangWuDao.selec4(maxmoney,minmoney);
+    }
+
     public zhangwu addZhangWu(zhangwu zw){
         zhangWuDao.addZhangWu(zw);
         return zw;
@@ -28,7 +41,12 @@ public class ZhangWuService {
         zhangWuDao.editZhangWu(zw);
     }
 
-    public void deleteZhangWu(int zwid){
-        zhangWuDao.deleteZhangWu(zwid);
+    public void deleteZhangWu(){
+        zhangWuDao.deleteZhangWu();
     }
+    public void delete1(int zwid){ zhangWuDao.delete1(zwid);}
+    public void delete2(String flname){ zhangWuDao.delete2(flname);}
+    public void delete3(double maxmoney,double minmoney){ zhangWuDao.delete3(maxmoney,minmoney);}
+    public void delete4(String zhanghu){ zhangWuDao.delete4(zhanghu);}
+    public void delete5(String startDate,String endDate){ zhangWuDao.delete5(startDate,endDate);}
 }
