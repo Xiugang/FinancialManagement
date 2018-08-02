@@ -91,7 +91,21 @@ public class ZhangWuDao {
             throw new RuntimeException("条件查询失败");
         }
     }
-
+    /**
+     * @条件查询5
+     * 根据id查询
+     * 其他调用
+     * */
+    public List<zhangwu> selec5(int zwid){
+        try {
+            String sql = "SELECT * FROM zhangwu WHERE zwid";
+//            Object[] param = {maxmoney, minmoney};
+            return queryRunner.query(sql,new BeanListHandler<>(zhangwu.class),zwid);
+        }catch (SQLException ex){
+            System.out.println(ex);
+            throw new RuntimeException("条件查询失败");
+        }
+    }
     /**
      * @填写消费信息
      * 无返回值

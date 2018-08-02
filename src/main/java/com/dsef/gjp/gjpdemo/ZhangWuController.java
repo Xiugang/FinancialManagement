@@ -27,7 +27,6 @@ public class ZhangWuController {
     @RequestMapping(value = "selectAll",method = RequestMethod.GET)
     @ApiOperation(value = "查询全部账户",notes = "显示所有的消费信息")
     public List<zhangwu> selectAll(){
-
         return zhangWuService.selectAll();
     }
 
@@ -39,7 +38,7 @@ public class ZhangWuController {
     @ApiOperation(value = "根据消费时间段查询",notes = "起止时间的格式XXXX-XX-xx")
     public List<zhangwu> select(@RequestParam(value = "startDate") String startDate,
                                 @RequestParam(value = "endDate") String endDate){
-        if (zhangWuService.select1(startDate,endDate)== null)
+        if (zhangWuService.select1(startDate,endDate).isEmpty())
             System.out.println("没有消费记录");
         return zhangWuService.select1(startDate,endDate);
     }
@@ -51,6 +50,8 @@ public class ZhangWuController {
     @RequestMapping(value = "selectForFlname",method = RequestMethod.GET)
     @ApiOperation(value = "根据消费方式去查询",notes = "消费方式")
     public List<zhangwu> select2(@RequestParam(value = "flname") String flname){
+        if (zhangWuService.select2(flname).isEmpty())
+            System.out.println("没有消费记录");
         return zhangWuService.select2(flname);
     }
 
@@ -61,6 +62,8 @@ public class ZhangWuController {
     @RequestMapping(value = "selectForZhanghu",method = RequestMethod.GET)
     @ApiOperation(value = "根据消费方式去查询",notes = "消费方式")
     public List<zhangwu> select3(@RequestParam(value = "zhanghu") String zhanghu){
+        if (zhangWuService.select3(zhanghu).isEmpty())
+            System.out.println("没有消费记录");
         return zhangWuService.select3(zhanghu);
     }
 
@@ -70,9 +73,9 @@ public class ZhangWuController {
      * */
     @RequestMapping(value = "selectForMoney",method = RequestMethod.GET)
     @ApiOperation(value = "根据消费金额段查询",notes = "金额范围")
-    public List<zhangwu> select(@RequestParam(value = "maxmoney",defaultValue = "1000") double maxmoney,
+    public List<zhangwu> select4(@RequestParam(value = "maxmoney",defaultValue = "1000") double maxmoney,
                                 @RequestParam(value = "minmoney",defaultValue = "0") double minmoney){
-        if (zhangWuService.select4(minmoney,maxmoney)== null)
+        if (zhangWuService.select4(minmoney,maxmoney).isEmpty())
             System.out.println("没有消费记录");
         return zhangWuService.select4(maxmoney,minmoney);
     }
@@ -100,13 +103,15 @@ public class ZhangWuController {
      * 时间不允许修改
      * */
     @RequestMapping(value = "editZhangWu",method = RequestMethod.PUT)
-    @ApiOperation(value = "编辑账户",notes = "对已有消费进行修改")
+    @ApiOperation(value = "编辑账户",notes = "不允许修改时间")
     public void editZhangWu(@RequestParam(value = "zwid") int zwid,
                              @RequestParam(value = "flname") String flname,
                              @RequestParam(value = "money") double money,
                              @RequestParam(value = "zhanghu") String zhanghu,
                              @RequestParam(value = "description") String description){
-//        if ()
+        if (zhangWuService.select5(zwid).isEmpty())
+            System.out.println("该消费记录被删除或没有该消费记录");
+
         zhangwu zw = new zhangwu(zwid,flname,money,zhanghu,"XXXX-XX-xx",description);
         zhangWuService.editZhangWu(zw);
     }
@@ -133,6 +138,8 @@ public class ZhangWuController {
     @RequestMapping(value = "delectForId",method = RequestMethod.DELETE)
     @ApiOperation(value = "根据ID删除",notes = "ID需通过查询全部知道")
     public String delete1(@RequestParam(value = "zwid") int zwid){
+        if (zhangWuService.select5(zwid).isEmpty())
+            System.out.println("该消息不存在");
         zhangWuService.delete1(zwid);
         return "该条消费信息全部删除";
     }
@@ -144,6 +151,8 @@ public class ZhangWuController {
     @RequestMapping(value = "delectForFlname",method = RequestMethod.DELETE)
     @ApiOperation(value = "根据消费名删除",notes = "该消费类型会被都删除")
     public String delete2(@RequestParam(value = "flname") String flname){
+        if (zhangWuService.select2(flname).isEmpty())
+            System.out.println("不存在该类消息");
         zhangWuService.delete2(flname);
         return "删除成功";
     }
@@ -156,6 +165,10 @@ public class ZhangWuController {
     @ApiOperation(value = "根据消费金额删除",notes = "该消费金额范围都将删除")
     public String delect3(@RequestParam(value = "maxmoney",defaultValue = "0") double maxmoney,
                           @RequestParam(value = "minmoney",defaultValue = "0") double minmoney){
+        if (maxmoney < minmoney)
+            return "最大金额要大于最小金额";
+        if (zhangWuService.select4(maxmoney,minmoney).isEmpty())
+            System.out.println("不存在此类消息");
         zhangWuService.delete3(maxmoney,minmoney);
         return "删除成功";
     }
@@ -167,6 +180,8 @@ public class ZhangWuController {
     @RequestMapping(value = "delectForZhanghu",method = RequestMethod.DELETE)
     @ApiOperation(value = "根据支出账户删除",notes = "该支出账户类型都将删除")
     public String delect4(@RequestParam(value = "zhanghu") String zhanghu){
+        if (zhangWuService.select3(zhanghu).isEmpty())
+            System.out.println("不存在此类消息" );
         zhangWuService.delete4(zhanghu);
         return "删除成功";
     }
@@ -179,6 +194,8 @@ public class ZhangWuController {
     @ApiOperation(value = "根据消费时间删除",notes = "该消费时间范围都将删除")
     public String delect5(@RequestParam(value = "startDate") String startDate,
                           @RequestParam(value = "endDate") String endDate){
+        if (zhangWuService.select1(startDate,endDate).isEmpty())
+            System.out.println("不存在该类消息");
         zhangWuService.delete5(startDate,endDate);
         return "删除成功";
     }

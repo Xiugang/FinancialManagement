@@ -32,6 +32,7 @@ public class ZhangWuService {
     public List<zhangwu> select4(double maxmoney,double minmoney){
         return zhangWuDao.selec4(maxmoney,minmoney);
     }
+    public List<zhangwu> select5(int zwid){ return zhangWuDao.selec5(zwid); }
 
     public zhangwu addZhangWu(zhangwu zw){
         zhangWuDao.addZhangWu(zw);
